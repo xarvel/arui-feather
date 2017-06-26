@@ -1,4 +1,4 @@
-os: osx
+# os: osx
 
 language: node_js
 
@@ -28,21 +28,21 @@ install:
   - yarn install
 
 script:
-  - if [ "${TEST_SCOPE}" == "lint" ]; then npm run lint; fi
-  - if [ "${TEST_SCOPE}" == "desktop_unit" ]; then npm run test; fi
-  - if [ "${TEST_SCOPE}" == "mobile_unit" ]; then MOBILE=1 npm run test; fi
+  # - if [ "${TEST_SCOPE}" == "lint" ]; then npm run lint; fi
+  # - if [ "${TEST_SCOPE}" == "desktop_unit" ]; then npm run test; fi
+  # - if [ "${TEST_SCOPE}" == "mobile_unit" ]; then MOBILE=1 npm run test; fi
   - if [ "${TEST_SCOPE}" == "gemini" ]; then SUITES=collapse npm run gemini; fi
 
 after_success:
-  - |
-    if [ "${TRAVIS_BRANCH}" == "master" ]; then
-      if [ "${TEST_SCOPE}" == "lint" ]; then
-        sh ./tools/publish-styleguide.sh
-      fi
-      if [ "${TEST_SCOPE}" == "desktop_unit" ]; then
-        sh ./tools/publish-styleguide-fantasy.sh
-      fi
-    fi
+  # - |
+  #   if [ "${TRAVIS_BRANCH}" == "master" ]; then
+  #     if [ "${TEST_SCOPE}" == "lint" ]; then
+  #       sh ./tools/publish-styleguide.sh
+  #     fi
+  #     if [ "${TEST_SCOPE}" == "desktop_unit" ]; then
+  #       sh ./tools/publish-styleguide-fantasy.sh
+  #     fi
+  #   fi
 
 after_failure:
   - |
