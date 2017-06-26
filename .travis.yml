@@ -17,7 +17,7 @@ env:
     - TEST_SCOPE: lint
     - TEST_SCOPE: desktop_unit
     - TEST_SCOPE: mobile_unit
-    # - TEST_SCOPE: gemini
+    - TEST_SCOPE: gemini
 
 matrix:
   fast_finish: true
