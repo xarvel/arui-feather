@@ -1,24 +1,22 @@
-os:
-  - linux
-  - osx
+os: osx
 
 language: node_js
 
 node_js:
   - stable
 
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.8
+# addons:
+#   apt:
+#     sources:
+#       - ubuntu-toolchain-r-test
+#     packages:
+#       - g++-4.8
 
 env:
-  global:
-    - CXX=g++-4.8
+  # global:
+    # - CXX=g++-4.8
   matrix:
-    - TEST_SCOPE: lint
+    # - TEST_SCOPE: lint
     # - TEST_SCOPE: desktop_unit
     # - TEST_SCOPE: mobile_unit
     - TEST_SCOPE: gemini
@@ -30,15 +28,10 @@ install:
   - yarn install
 
 script:
-  - |
-    if [ "${TRAVIS_OS_NAME}" == "osx" ]; then
-      if [ "${TEST_SCOPE}" == "gemini" ]; then SUITES=collapse npm run gemini; fi
-    else
-      if [ "${TEST_SCOPE}" == "lint" ]; then npm run lint; fi
-    fi
-
+  # - if [ "${TEST_SCOPE}" == "lint" ]; then npm run lint; fi
   # - if [ "${TEST_SCOPE}" == "desktop_unit" ]; then npm run test; fi
   # - if [ "${TEST_SCOPE}" == "mobile_unit" ]; then MOBILE=1 npm run test; fi
+  - if [ "${TEST_SCOPE}" == "gemini" ]; then SUITES=collapse npm run gemini; fi
 
 after_success:
   # - |
