@@ -30,7 +30,8 @@
     "pub": "npm run compile && cd .publish && npm publish",
     "demo": "styleguidist server",
     "styleguide-build": "styleguidist build",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "icons": "gulp --gulpfile ./src/icon/icons.gulpfile.js"
   },
   "lint-staged": {
     "concurrent": false,
@@ -80,6 +81,7 @@
   "author": "Good guys from Alfa Laboratory",
   "license": "MPL-2.0",
   "dependencies": {
+    "alfa-ui-primitives": "^0.1.0",
     "array-from": "^2.1.1",
     "array.prototype.fill": "^1.0.1",
     "array.prototype.find": "^2.0.4",

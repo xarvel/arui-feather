@@ -11,22 +11,17 @@ import performance from '../performance';
 /**
  * Базовый компонент иконки. Содержит в себе только неодходимые для компонентов иконки.
  */
+
 @cn('icon')
 @performance()
 class Icon extends React.Component {
     static propTypes = {
         /** Дополнительный класс */
         className: Type.oneOfType([Type.func, Type.string]),
-        /** Управление цветностью иконки */
-        colored: Type.bool,
         /** Идентификатор компонента в DOM */
         id: Type.string,
-        /** Название иконки */
-        name: Type.string,
         /** Размер иконки */
-        size: Type.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
-        /** Тема компонента */
-        theme: Type.oneOf(['alfa-on-color', 'alfa-on-white'])
+        size: Type.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl'])
     };
 
     static defaultProps = {
@@ -35,14 +30,6 @@ class Icon extends React.Component {
 
     render(cn) {
         let mods = { size: this.props.size };
-
-        if (this.props.name) {
-            mods.name = this.props.name;
-        }
-
-        if (this.props.colored) {
-            mods.colored = true;
-        }
 
         return (
             <span
