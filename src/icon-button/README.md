@@ -1,4 +1,5 @@
 ```jsx
+const IconClose = require('./../icon/ui/close').default;
 <div className='row'>
     {['s', 'm', 'l', 'xl'].map(size => (
         <span
@@ -6,7 +7,7 @@
             className='column l'
         >
             <IconButton size={ size } onClick={ () => { confirm('Подтвердите удаление') } }>
-                <Icon size={ size } name='tool-close' />
+                <IconClose size={ size }/>
             </IconButton>
         </span>
     ))}

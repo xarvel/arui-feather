@@ -8,7 +8,8 @@ import React from 'react';
 import Type from 'prop-types';
 
 import Button from '../button/button';
-import Icon from '../icon/icon';
+import IconDown from '../icon/ui/down';
+import IconUp from '../icon/ui/up';
 import IconButton from '../icon-button/icon-button';
 import Menu from '../menu/menu';
 import Mq from '../mq/mq';
@@ -269,8 +270,17 @@ class Select extends React.Component {
         );
     }
 
+    getIcon() {
+      if (this.getOpened()) {
+        return IconUp
+      }
+      return IconDown
+    }
+
     renderButton(cn, SelectButton) {
         let tickSize;
+        const ToggledIcon = this.getIcon();
+        console.log(ToggledIcon);
 
         switch (this.props.size) {
             case 's': case 'm': tickSize = 'xs'; break;
@@ -291,10 +301,7 @@ class Select extends React.Component {
                         size={ this.props.size }
                         tag='span'
                     >
-                        <Icon
-                            name={ this.getOpened() ? 'action-up' : 'action-down' }
-                            size={ tickSize }
-                        />
+                        <ToggledIcon />
                     </IconButton>,
                     <ResizeSensor key='addon-sensor' onResize={ this.updatePopupStyles } />
                 ] }
