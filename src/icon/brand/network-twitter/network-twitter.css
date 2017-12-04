@@ -13,3 +13,7 @@
 .icon_size_s.icon_name_network-twitter.icon_theme_alfa-on-white {
     background-image: url('./icon_network-twitter_s_black.svg');
 }
+
+.icon_size_s.icon_name_network-twitter.icon_theme_alfa-on-color {
+    background-image: url('./icon_network-twitter_s_white.svg');
+}

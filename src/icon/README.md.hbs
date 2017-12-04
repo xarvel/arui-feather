@@ -1,12 +1,11 @@
 {{#each this}}
   ```jsx
-
   {{#each this}}
     const {{this.componentName}} = require('./{{this.category}}/{{this.name}}').default;
   {{/each}}
   <div>
-    {{#each this.size}}
-        <span className="column l"><{{componentName}} size="{{size}}"/></span>
+    {{#each this.sizes}}
+        <span className="column l"><{{this.componentName}} size="{{this.size}}"/></span>
     {{/each}}
   </div>
   ```

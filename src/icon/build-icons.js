@@ -4,7 +4,6 @@
 
 /* eslint import/no-extraneous-dependencies: [2, {"devDependencies": true}] */
 const del = require('del');
-const _ = require('lodash');
 const fs = require('fs');
 const handlebars = require('handlebars');
 const mkdirp = require('mkdirp');
@@ -93,6 +92,7 @@ class Icon {
 
     // Create folder structure
     createFolder() {
+      console.log(this.categoryPath);
         return new Promise((resolve) => {
             mkdirp.sync(this.categoryPath);
             resolve();
@@ -139,7 +139,7 @@ class Icon {
 }
 
 // Pseudo glob
-const getFiles = (source, extension) => {
+const getIcons = (source, extension) => {
     let results = [];
     if (!fs.existsSync(source)) return false;
     const files = fs.readdirSync(source);
@@ -147,7 +147,7 @@ const getFiles = (source, extension) => {
         const filename = path.join(source, file);
         const icon = new Icon(filename);
         if (isDirectory(filename)) {
-            results = results.concat(getFiles(filename, extension));
+            results = results.concat(getIcons(filename, extension));
         } else if (filename.indexOf(extension) >= 0) {
             results.push(icon);
         }
@@ -168,39 +168,39 @@ const categories = [
     'user'
 ];
 
-const createReadme = (files) => {
-    let categoriesArray = [];
-    categories.forEach((category) => {
-        console.log((files
-            .filter(file => file.category === category)
-            .map((icon) => {
-                return {
-                    name: icon.name,
-                    size: icon.size,
-                    category: icon.category,
-                    componentName: icon.componentName
-                };
-            })
-        ));
-          // console.log(_.keyBy(newObj, 'name'));
-    });
-    console.log(categoriesArray);
-    fs.writeFile(
-        './src/icon/README.md', getTemplate('README.md', categoriesArray),
-        (err) => { if (err) throw err; }
-    );
-};
+// const createReadme = (icons) => {
+//     let categoriesArray = [];
+//     categories.forEach((category) => {
+//         categoriesArray.push(icons
+//             .filter(icon => icon.category === category)
+//             .map((icon) => {
+//                 return {
+//                     name: icon.name,
+//                     size: icon.size,
+//                     category: icon.category,
+//                     componentName: icon.componentName
+//                 };
+//             })
+//         );
+//     });
+//
+//     fs.writeFile(
+//         './src/icon/README.md', getTemplate('README.md', categoriesArray),
+//         (err) => { if (err) throw err; }
+//     );
+// };
 
 let icons = [];
 
 // Get icons
 categories.forEach((folder) => {
-    icons.push(...getFiles(`./node_modules/alfa-ui-primitives/icons/${folder}`, '.svg'));
+    icons.push(...getIcons(`./node_modules/alfa-ui-primitives/icons/${folder}`, '.svg'));
 });
 
 clean.then(() => {
     console.log('⏳ Creating icons'); // eslint-disable-line no-console
-    createReadme(icons);
+    // createReadme(icons);
+    console.log(icons);
     icons.forEach((icon) => {
         icon.createFolder()
             .then(() => {
