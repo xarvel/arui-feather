@@ -6,10 +6,10 @@ import React from 'react';
 import Icon from '../../../icon';
 
 class IconCategoryGibddFines extends React.Component {
-    render(cn) {
+    render() {
         return (
             <Icon
-                {...this.props}
+                { ...this.props }
                 name='category-gibdd-fines'
             />
         );

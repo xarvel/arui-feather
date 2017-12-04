@@ -6,10 +6,10 @@ import React from 'react';
 import Icon from '../../../icon';
 
 class IconTransferAnyBankCredit extends React.Component {
-    render(cn) {
+    render() {
         return (
             <Icon
-                {...this.props}
+                { ...this.props }
                 name='transfer-any-bank-credit'
             />
         );

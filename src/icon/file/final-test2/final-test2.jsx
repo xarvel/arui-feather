@@ -6,10 +6,10 @@ import React from 'react';
 import Icon from '../../../icon';
 
 class IconFinalTest2 extends React.Component {
-    render(cn) {
+    render() {
         return (
             <Icon
-                {...this.props}
+                { ...this.props }
                 name='final-test2'
             />
         );

@@ -6,10 +6,10 @@ import React from 'react';
 import Icon from '../../../icon';
 
 class IconShareIos extends React.Component {
-    render(cn) {
+    render() {
         return (
             <Icon
-                {...this.props}
+                { ...this.props }
                 name='share-ios'
             />
         );

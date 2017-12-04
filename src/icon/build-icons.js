@@ -4,6 +4,7 @@
 
 /* eslint import/no-extraneous-dependencies: [2, {"devDependencies": true}] */
 const del = require('del');
+const _ = require('lodash');
 const fs = require('fs');
 const handlebars = require('handlebars');
 const mkdirp = require('mkdirp');
@@ -17,27 +18,10 @@ const COPYRIGHT =
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */\n`;
 
-
 const isDirectory = source => fs.lstatSync(source).isDirectory();
 
 const getDirectories = source =>
     fs.readdirSync(source).map(name => path.join(source, name)).filter(isDirectory);
-
-// Pseudo glob
-const getFiles = (source, extension) => {
-    let results = [];
-    if (!fs.existsSync(source)) return false;
-    const files = fs.readdirSync(source);
-    files.forEach((file) => {
-        const filename = path.join(source, file);
-        if (isDirectory(filename)) {
-            results = results.concat(getFiles(filename, extension));
-        } else if (filename.indexOf(extension) >= 0) {
-            results.push(filename);
-        }
-    });
-    return results;
-};
 
 // Delete folders
 const clean = new Promise((resolve) => {
@@ -47,29 +31,27 @@ const clean = new Promise((resolve) => {
 });
 
 // Get Handlebars template
-const getTemplate = (str, data) => {
-    let template = handlebars.compile(fs.readFileSync(`./src/icon/icon.${str}.hbs`, 'utf8'));
+const getTemplate = (filename, data) => {
+    let template = handlebars.compile(fs.readFileSync(`./src/icon/${filename}.hbs`, 'utf8'));
     return template(data);
 };
 
 
 class Icon {
     constructor(iconPath) {
-        this.path = iconPath;
         this.fileName = path.basename(iconPath, 'icon');
+        this.path = iconPath;
         this.categoryPath = `./src/icon/${this.getCategory()}/${this.getName()}/`;
         this.indexFile = `${this.categoryPath}index.js`;
         this.cssFile = `${this.categoryPath}${this.getName()}.css`;
         this.jsxFile = `${this.categoryPath}${this.getName()}.jsx`;
-        this.handlebarsData = {
-            name: this.getName(),
-            size: this.getSize(),
-            color: this.getColor(),
-            aruiColor: this.getAruiColor(),
-            // Rename some-thing -> IconSomeThing
-            componentName: `Icon${uppercamelcase(this.getName())}`,
-            classes: this.getClasses()
-        };
+        this.name = this.getName();
+        this.category = this.getCategory();
+        this.componentName = `Icon${uppercamelcase(this.getName())}`;
+        this.size = this.getSize();
+        this.color = this.getColor();
+        this.aruiColor = this.getAruiColor();
+        this.classes = this.getClasses();
     }
 
     getClasses() {
@@ -128,7 +110,7 @@ class Icon {
     // Create index.js
     createIndex() {
         fs.writeFile(
-            this.indexFile, getTemplate('js', this.handlebarsData),
+            this.indexFile, getTemplate('index.js', this),
             (err) => { if (err) throw err; }
         );
     }
@@ -136,7 +118,7 @@ class Icon {
     // Create jsx files
     createJSX() {
         fs.writeFile(
-            this.jsxFile, getTemplate('jsx', this.handlebarsData),
+            this.jsxFile, getTemplate('icon.jsx', this),
             (err) => { if (err) throw err; }
         );
     }
@@ -150,14 +132,31 @@ class Icon {
             );
         }
         fs.appendFile(
-            this.cssFile, getTemplate('css', this.handlebarsData), 'utf8',
+            this.cssFile, getTemplate('icon.css', this), 'utf8',
             (err) => { if (err) throw err; }
         );
     }
 }
 
+// Pseudo glob
+const getFiles = (source, extension) => {
+    let results = [];
+    if (!fs.existsSync(source)) return false;
+    const files = fs.readdirSync(source);
+    files.forEach((file) => {
+        const filename = path.join(source, file);
+        const icon = new Icon(filename);
+        if (isDirectory(filename)) {
+            results = results.concat(getFiles(filename, extension));
+        } else if (filename.indexOf(extension) >= 0) {
+            results.push(icon);
+        }
+    });
+    return results;
+};
+
 // Folders to add
-const folders = [
+const categories = [
     'action',
     'banking',
     'brand',
@@ -169,25 +168,48 @@ const folders = [
     'user'
 ];
 
-let files = [];
+const createReadme = (files) => {
+    let categoriesArray = [];
+    categories.forEach((category) => {
+        console.log((files
+            .filter(file => file.category === category)
+            .map((icon) => {
+                return {
+                    name: icon.name,
+                    size: icon.size,
+                    category: icon.category,
+                    componentName: icon.componentName
+                };
+            })
+        ));
+          // console.log(_.keyBy(newObj, 'name'));
+    });
+    console.log(categoriesArray);
+    fs.writeFile(
+        './src/icon/README.md', getTemplate('README.md', categoriesArray),
+        (err) => { if (err) throw err; }
+    );
+};
+
+let icons = [];
 
 // Get icons
-folders.forEach((folder) => {
-    files.push(...getFiles(`./node_modules/alfa-ui-primitives/icons/${folder}`, '.svg'));
+categories.forEach((folder) => {
+    icons.push(...getFiles(`./node_modules/alfa-ui-primitives/icons/${folder}`, '.svg'));
 });
 
 clean.then(() => {
     console.log('⏳ Creating icons'); // eslint-disable-line no-console
-    files.forEach((iconPath) => {
-        const currentIcon = new Icon(iconPath);
-        currentIcon.createFolder()
+    createReadme(icons);
+    icons.forEach((icon) => {
+        icon.createFolder()
             .then(() => {
-                currentIcon.copySVG();
-                currentIcon.createIndex();
-                currentIcon.createJSX();
-                currentIcon.addCSS();
+                icon.copySVG();
+                icon.createIndex();
+                icon.createJSX();
+                icon.addCSS();
             }).catch((err) => { if (err) throw err; });
     });
 }).then(() => {
-    console.log(`👌 ${files.length} icons created`); // eslint-disable-line no-console
+    console.log(`👌 ${icons.length} icons created`); // eslint-disable-line no-console
 }).catch((err) => { if (err) throw err; });
