@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-import './final-test2.css';
+import './back.css';
 import '../../../icon';
 
-export default from './final-test2';
+export default from './back';

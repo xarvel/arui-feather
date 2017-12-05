@@ -2,3 +2,6 @@
 > arui-feather@10.6.0 icons /Users/juliashestova/Sites/arui-feather
 > node ./src/icon/build-icons.js
 
+⏳ Creating icons
+undefined
+👌 1597 icons created

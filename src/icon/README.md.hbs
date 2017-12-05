@@ -4,8 +4,12 @@
     const {{this.componentName}} = require('./{{this.category}}/{{this.name}}').default;
   {{/each}}
   <div>
-    {{#each this.sizes}}
-        <span className="column l"><{{this.componentName}} size="{{this.size}}"/></span>
+    {{#each this as |icon iconID|}}
+      <div className="row">
+        {{#each this.size}}
+            <span className="column l"><{{icon.componentName}} size="{{this}}"/></span>
+        {{/each}}
+      </div>
     {{/each}}
   </div>
   ```

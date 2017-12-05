@@ -5,15 +5,15 @@
 import React from 'react';
 import Icon from '../../../icon';
 
-class IconNetworkFacebook­ extends React.Component {
+class IconBack extends React.Component {
     render() {
         return (
             <Icon
                 { ...this.props }
-                name='network-facebook­'
+                name='back'
             />
         );
     }
 }
 
-export default IconNetworkFacebook­;
+export default IconBack;

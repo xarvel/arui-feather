@@ -7,15 +7,31 @@ const del = require('del');
 const fs = require('fs');
 const handlebars = require('handlebars');
 const mkdirp = require('mkdirp');
+const _ = require('lodash');
 const path = require('path');
 const uppercamelcase = require('uppercamelcase');
 
 const REGEXP = new RegExp(/([a-z]*)(_)(.*?)(_)(.*?)(_)([a-z]*)/, 'i');
 
+// Folders to add
+const CATEGORIES = [
+    'action',
+    'banking',
+    'brand',
+    'category',
+    'currency',
+    'entity',
+    'file',
+    'ui',
+    'user'
+];
+
 const COPYRIGHT =
 `/* This Source Code Form is subject to the terms of the Mozilla Public
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */\n`;
+
+let icons = [];
 
 const isDirectory = source => fs.lstatSync(source).isDirectory();
 
@@ -24,17 +40,17 @@ const getDirectories = source =>
 
 // Delete folders
 const clean = new Promise((resolve) => {
-    const files = getDirectories('./src/icon');
-    files.map(file => del.sync(file));
+    getDirectories('./src/icon').map(file => del.sync(file));
     resolve();
 });
 
 // Get Handlebars template
 const getTemplate = (filename, data) => {
-    let template = handlebars.compile(fs.readFileSync(`./src/icon/${filename}.hbs`, 'utf8'));
+    let template = handlebars.compile(
+        fs.readFileSync(`./src/icon/${filename}.hbs`, 'utf8')
+    );
     return template(data);
 };
-
 
 class Icon {
     constructor(iconPath) {
@@ -83,6 +99,7 @@ class Icon {
         return this.fileName.match(REGEXP)[7];
     }
 
+    // Color in arui fashion
     getAruiColor() {
         let color = this.getColor();
         if (color === 'white') return 'alfa-on-color';
@@ -92,7 +109,6 @@ class Icon {
 
     // Create folder structure
     createFolder() {
-      console.log(this.categoryPath);
         return new Promise((resolve) => {
             mkdirp.sync(this.categoryPath);
             resolve();
@@ -138,7 +154,7 @@ class Icon {
     }
 }
 
-// Pseudo glob
+// Pseudo glob. Creates array of Icon classes
 const getIcons = (source, extension) => {
     let results = [];
     if (!fs.existsSync(source)) return false;
@@ -155,52 +171,70 @@ const getIcons = (source, extension) => {
     return results;
 };
 
-// Folders to add
-const categories = [
-    'action',
-    'banking',
-    'brand',
-    'category',
-    'currency',
-    'entity',
-    'file',
-    'ui',
-    'user'
-];
+// Readme generator
+const createReadme = (icons) => {
+    let categoriesArray = [];
 
-// const createReadme = (icons) => {
-//     let categoriesArray = [];
-//     categories.forEach((category) => {
-//         categoriesArray.push(icons
-//             .filter(icon => icon.category === category)
-//             .map((icon) => {
-//                 return {
-//                     name: icon.name,
-//                     size: icon.size,
-//                     category: icon.category,
-//                     componentName: icon.componentName
-//                 };
-//             })
-//         );
-//     });
-//
-//     fs.writeFile(
-//         './src/icon/README.md', getTemplate('README.md', categoriesArray),
-//         (err) => { if (err) throw err; }
-//     );
-// };
+    CATEGORIES.forEach((category) => {
+        categoriesArray.push(icons
 
-let icons = [];
+            // Get icons from this category
+            .filter(item => item.category === category)
+
+            // Get only needed properties
+            .map((item) => {
+                return {
+                    name: item.name,
+                    size: item.size,
+                    category: item.category,
+                    componentName: item.componentName
+                };
+            })
+
+            // Remove dublicates, put sizes into array
+            .reduce((result, item) => {
+                let total = result;
+                const getIndex = () => total.map(i => i.name).indexOf(item.name);
+                let iconIndex = getIndex();
+
+                if (iconIndex < 0) {
+                    total.push(
+                        {
+                            name: item.name,
+                            size: [item.size],
+                            category: item.category,
+                            componentName: item.componentName
+                        }
+                    );
+                }
+
+                iconIndex = getIndex();
+
+                if (total[iconIndex].size.indexOf(item.size) < 0) {
+                    total[iconIndex].size.push(item.size);
+                }
+
+                return total;
+            }, [])
+        );
+    });
+
+    fs.writeFile(
+        './src/icon/README.md', getTemplate('README.md', categoriesArray),
+        (err) => { if (err) throw err; }
+    );
+};
 
 // Get icons
-categories.forEach((folder) => {
+CATEGORIES.forEach((folder) => {
     icons.push(...getIcons(`./node_modules/alfa-ui-primitives/icons/${folder}`, '.svg'));
 });
 
+// Main process. Cleans icons, creates documentaion, folder structure,
+// copies svgs, creates index.js, .jsx and css files for component.
 clean.then(() => {
-    console.log('⏳ Creating icons'); // eslint-disable-line no-console
-    // createReadme(icons);
-    console.log(icons);
+    console.info('⏳ Creating icons'); // eslint-disable-line no-console
+    createReadme(icons);
     icons.forEach((icon) => {
         icon.createFolder()
             .then(() => {
@@ -211,5 +245,5 @@ clean.then(() => {
             }).catch((err) => { if (err) throw err; });
     });
 }).then(() => {
-    console.log(`👌 ${icons.length} icons created`); // eslint-disable-line no-console
+    console.info(`👌 ${icons.length} icons created`); // eslint-disable-line no-console
 }).catch((err) => { if (err) throw err; });

@@ -5,15 +5,15 @@
 import React from 'react';
 import Icon from '../../../icon';
 
-class IconFinalTest2 extends React.Component {
+class IconContactList extends React.Component {
     render() {
         return (
             <Icon
                 { ...this.props }
-                name='final-test2'
+                name='contact-list'
             />
         );
     }
 }
 
-export default IconFinalTest2;
+export default IconContactList;
