@@ -229,8 +229,6 @@ const createReadme = (icons) => {
         );
     });
 
-    console.log(categoriesArray[2][31]);
-
     fs.writeFile(
         './src/icon/README.md', getTemplate('README.md', categoriesArray),
         (err) => { if (err) throw err; }
