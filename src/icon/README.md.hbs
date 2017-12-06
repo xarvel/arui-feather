@@ -6,9 +6,16 @@
   <div>
     {{#each this as |icon iconID|}}
       <div className="row">
-        {{#each this.size}}
-            <span className="column l"><{{icon.componentName}} size="{{this}}"/></span>
-        {{/each}}
+        <span className="column l"><{{icon.componentName}} size="s"/></span>
+        <span className="column l"><{{icon.componentName}} size="m"/></span>
+        <span className="column l"><{{icon.componentName}} size="l"/></span>
+        <span className="column l"><{{icon.componentName}} size="xl"/></span>
+        <span className="column l"><{{icon.componentName}} size="xxl"/></span>
+        <span className="column l"><{{icon.componentName}} size="s" colored="true"/></span>
+        <span className="column l"><{{icon.componentName}} size="m" colored="true"/></span>
+        <span className="column l"><{{icon.componentName}} size="l" colored="true"/></span>
+        <span className="column l"><{{icon.componentName}} size="xl" colored="true"/></span>
+        <span className="column l"><{{icon.componentName}} size="xxl" colored="true"/></span>
       </div>
     {{/each}}
   </div>

@@ -1,4 +1,5 @@
 ```jsx
+const IconLogoAlfabank = require('./../icon/brand/logo-alfabank').default;
 <div>
     <Heading size='xl'>
         Услуга по накоплению «Копилка для сдачи»
@@ -12,5 +13,6 @@
     <Heading size='s'>
         Максимальная сумма каждого перечисления
     </Heading>
+    <IconLogoAlfabank />
 </div>
 ```

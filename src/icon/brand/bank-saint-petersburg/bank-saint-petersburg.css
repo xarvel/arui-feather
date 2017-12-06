@@ -6,7 +6,7 @@
     background-image: url('./icon_bank-saint-petersburg_l_black.svg');
 }
 
-.icon_size_l.icon_name_bank-saint-petersburg.icon_colored {
+.icon_size_l.icon_name_bank-saint-petersburg.icon_colored.icon_theme_alfa-on-color, .icon_size_l.icon_name_bank-saint-petersburg.icon_colored.icon_theme_alfa-on-white {
     background-image: url('./icon_bank-saint-petersburg_l_color.svg');
 }
 
@@ -18,7 +18,7 @@
     background-image: url('./icon_bank-saint-petersburg_m_black.svg');
 }
 
-.icon_size_m.icon_name_bank-saint-petersburg.icon_colored {
+.icon_size_m.icon_name_bank-saint-petersburg.icon_colored.icon_theme_alfa-on-color, .icon_size_m.icon_name_bank-saint-petersburg.icon_colored.icon_theme_alfa-on-white {
     background-image: url('./icon_bank-saint-petersburg_m_color.svg');
 }
 
@@ -26,7 +26,7 @@
     background-image: url('./icon_bank-saint-petersburg_s_black.svg');
 }
 
-.icon_size_s.icon_name_bank-saint-petersburg.icon_colored {
+.icon_size_s.icon_name_bank-saint-petersburg.icon_colored.icon_theme_alfa-on-color, .icon_size_s.icon_name_bank-saint-petersburg.icon_colored.icon_theme_alfa-on-white {
     background-image: url('./icon_bank-saint-petersburg_s_color.svg');
 }
 
@@ -38,7 +38,7 @@
     background-image: url('./icon_bank-saint-petersburg_xl_black.svg');
 }
 
-.icon_size_xl.icon_name_bank-saint-petersburg.icon_colored {
+.icon_size_xl.icon_name_bank-saint-petersburg.icon_colored.icon_theme_alfa-on-color, .icon_size_xl.icon_name_bank-saint-petersburg.icon_colored.icon_theme_alfa-on-white {
     background-image: url('./icon_bank-saint-petersburg_xl_color.svg');
 }
 

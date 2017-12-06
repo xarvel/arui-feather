@@ -6,7 +6,7 @@
     background-image: url('./icon_bank-uralsib_l_black.svg');
 }
 
-.icon_size_l.icon_name_bank-uralsib.icon_colored {
+.icon_size_l.icon_name_bank-uralsib.icon_colored.icon_theme_alfa-on-color, .icon_size_l.icon_name_bank-uralsib.icon_colored.icon_theme_alfa-on-white {
     background-image: url('./icon_bank-uralsib_l_color.svg');
 }
 
@@ -18,7 +18,7 @@
     background-image: url('./icon_bank-uralsib_m_black.svg');
 }
 
-.icon_size_m.icon_name_bank-uralsib.icon_colored {
+.icon_size_m.icon_name_bank-uralsib.icon_colored.icon_theme_alfa-on-color, .icon_size_m.icon_name_bank-uralsib.icon_colored.icon_theme_alfa-on-white {
     background-image: url('./icon_bank-uralsib_m_color.svg');
 }
 
@@ -30,7 +30,7 @@
     background-image: url('./icon_bank-uralsib_s_black.svg');
 }
 
-.icon_size_s.icon_name_bank-uralsib.icon_colored {
+.icon_size_s.icon_name_bank-uralsib.icon_colored.icon_theme_alfa-on-color, .icon_size_s.icon_name_bank-uralsib.icon_colored.icon_theme_alfa-on-white {
     background-image: url('./icon_bank-uralsib_s_color.svg');
 }
 
@@ -42,7 +42,7 @@
     background-image: url('./icon_bank-uralsib_xl_black.svg');
 }
 
-.icon_size_xl.icon_name_bank-uralsib.icon_colored {
+.icon_size_xl.icon_name_bank-uralsib.icon_colored.icon_theme_alfa-on-color, .icon_size_xl.icon_name_bank-uralsib.icon_colored.icon_theme_alfa-on-white {
     background-image: url('./icon_bank-uralsib_xl_color.svg');
 }
 

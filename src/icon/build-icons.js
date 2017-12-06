@@ -13,8 +13,10 @@ const uppercamelcase = require('uppercamelcase');
 
 const REGEXP = new RegExp(/([a-z]*)(_)(.*?)(_)(.*?)(_)([a-z]*)/, 'i');
 
+let icons = [];
+
 // Folders to add
-const CATEGORIES = [
+const categories = [
     'action',
     'banking',
     'brand',
@@ -30,8 +32,6 @@ const COPYRIGHT =
 `/* This Source Code Form is subject to the terms of the Mozilla Public
 * License, v. 2.0. If a copy of the MPL was not distributed with this
 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */\n`;
-
-let icons = [];
 
 const isDirectory = source => fs.lstatSync(source).isDirectory();
 
@@ -65,6 +65,7 @@ class Icon {
         this.componentName = `Icon${uppercamelcase(this.getName())}`;
         this.size = this.getSize();
         this.color = this.getColor();
+        this.colored = this.getColor() === 'color';
         this.aruiColor = this.getAruiColor();
         this.classes = this.getClasses();
     }
@@ -72,7 +73,9 @@ class Icon {
     getClasses() {
         let classes = `.icon_size_${this.getSize()}.icon_name_${this.getName()}`;
         if (!this.getAruiColor()) {
-            classes += '.icon_colored';
+            classes += '.icon_colored.icon_theme_alfa-on-color';
+            classes += `, .icon_size_${this.getSize()}.icon_name_${this.getName()}`;
+            classes += '.icon_colored.icon_theme_alfa-on-white';
         } else {
             classes += `.icon_theme_${this.getAruiColor()}`;
         }
@@ -175,7 +178,7 @@ const getIcons = (source, extension) => {
 const createReadme = (icons) => {
     let categoriesArray = [];
 
-    CATEGORIES.forEach((category) => {
+    categories.forEach((category) => {
         categoriesArray.push(icons
 
             // Get icons from this category
@@ -186,6 +189,7 @@ const createReadme = (icons) => {
                 return {
                     name: item.name,
                     size: item.size,
+                    colored: item.colored,
                     category: item.category,
                     componentName: item.componentName
                 };
@@ -202,6 +206,7 @@ const createReadme = (icons) => {
                         {
                             name: item.name,
                             size: [item.size],
+                            colored: item.colored,
                             category: item.category,
                             componentName: item.componentName
                         }
@@ -209,15 +214,22 @@ const createReadme = (icons) => {
                 }
 
                 iconIndex = getIndex();
+                const sizesArray = total[iconIndex].size;
+                const order = ['s', 'm', 'l', 'xl', 'xxl'];
 
-                if (total[iconIndex].size.indexOf(item.size) < 0) {
-                    total[iconIndex].size.push(item.size);
+                if (sizesArray.indexOf(item.size) < 0) {
+                    sizesArray.push(item.size);
+                    sizesArray.sort((a, b) => {
+                        return order.indexOf(a) > order.indexOf(b) ? 1 : -1;
+                    });
                 }
 
                 return total;
             }, [])
         );
     });
+
+    console.log(categoriesArray[2][31]);
 
     fs.writeFile(
         './src/icon/README.md', getTemplate('README.md', categoriesArray),
@@ -226,14 +238,14 @@ const createReadme = (icons) => {
 };
 
 // Get icons
-CATEGORIES.forEach((folder) => {
+categories.forEach((folder) => {
     icons.push(...getIcons(`./node_modules/alfa-ui-primitives/icons/${folder}`, '.svg'));
 });
 
 // Main process. Cleans icons, creates documentaion, folder structure,
 // copies svgs, creates index.js, .jsx and css files for component.
 clean.then(() => {
-    console.info('⏳ Creating icons'); // eslint-disable-line no-console
+    console.log('⏳ Creating icons'); // eslint-disable-line no-console
     createReadme(icons);
     icons.forEach((icon) => {
         icon.createFolder()
@@ -245,5 +257,5 @@ clean.then(() => {
             }).catch((err) => { if (err) throw err; });
     });
 }).then(() => {
-    console.info(`👌 ${icons.length} icons created`); // eslint-disable-line no-console
+    console.log(`👌 ${icons.length} icons created`); // eslint-disable-line no-console
 }).catch((err) => { if (err) throw err; });

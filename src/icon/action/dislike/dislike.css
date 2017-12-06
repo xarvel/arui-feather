@@ -6,7 +6,7 @@
     background-image: url('./icon_dislike_m_black.svg');
 }
 
-.icon_size_m.icon_name_dislike.icon_colored {
+.icon_size_m.icon_name_dislike.icon_colored.icon_theme_alfa-on-color, .icon_size_m.icon_name_dislike.icon_colored.icon_theme_alfa-on-white {
     background-image: url('./icon_dislike_m_color.svg');
 }
 
