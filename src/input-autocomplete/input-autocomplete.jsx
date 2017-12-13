@@ -11,6 +11,8 @@ import Type from 'prop-types';
 import Input from '../input/input';
 import Menu from '../menu/menu';
 import Popup from '../popup/popup';
+import PopupHeader from '../popup-header/popup-header';
+import Label from '../label/label';
 import ResizeSensor from '../resize-sensor/resize-sensor';
 
 import cn from '../cn';
@@ -62,7 +64,8 @@ class InputAutocomplete extends React.Component {
         /** Обработчик выбора пункта в выпадающем меню */
         onItemSelect: Type.func,
         /** Закрытие выпадающего списка в случае, если произошел выбор элемента */
-        closeOnSelect: Type.bool
+        closeOnSelect: Type.bool,
+        mobileMode: Type.bool
     };
 
     static defaultProps = {
@@ -73,7 +76,8 @@ class InputAutocomplete extends React.Component {
         updateValueOnItemSelect: true,
         directions: ['bottom-left', 'bottom-right', 'top-left', 'top-right'],
         equalPopupWidth: false,
-        closeOnSelect: false
+        closeOnSelect: false,
+        mobileMode: true
     };
 
     state = {
@@ -81,7 +85,8 @@ class InputAutocomplete extends React.Component {
         inputFocused: false,
         menuFocused: false,
         popupStyles: {},
-        highlightedItem: null
+        highlightedItem: null,
+        openedInMobileMode: false
     };
 
     /**
@@ -142,9 +147,22 @@ class InputAutocomplete extends React.Component {
     }
 
     render(cn, Input) {
-        let value = this.props.value !== undefined ? this.props.value : this.state.value;
+        const { mobileMode } = this.props;
 
-        let props = {
+        return (
+            <div
+                className={ cn('autocomplete-case', { width: this.props.width }) }
+            >
+                { this.renderInput(cn, Input) }
+                { mobileMode ? this.renderMobileModePopup(cn, Input) : this.renderPopup(cn) }
+            </div>
+        );
+    }
+
+    renderInput(cn, Input) {
+        const value = this.props.value !== undefined ? this.props.value : this.state.value;
+
+        const props = {
             ...this.props,
             ref: (input) => { this.input = input; },
             className: cn({
@@ -153,20 +171,14 @@ class InputAutocomplete extends React.Component {
             }),
             autocomplete: false,
             value,
+            onClick: this.handleInputClick,
             onChange: this.handleChange,
             onFocus: this.handleInputFocus,
             onBlur: this.handleInputBlur,
             onKeyDown: this.handleKeyDown
         };
 
-        return (
-            <div
-                className={ cn('autocomplete-case', { width: this.props.width }) }
-            >
-                <Input { ...props } />
-                { this.renderPopup(cn) }
-            </div>
-        );
+        return <Input { ...props } />;
     }
 
     renderPopup(cn) {
@@ -217,6 +229,31 @@ class InputAutocomplete extends React.Component {
                 />
             </Popup>
         ];
+    }
+
+    renderMobileModePopup(cn, Input) {
+        return (
+            <Popup
+                className={ cn('mobile-popup') }
+                height='adaptive'
+                target='screen'
+                visible={ this.state.openedInMobileMode }
+                header={ (
+                    <PopupHeader
+                        title={ <Label>Something name</Label> }
+                        onCloserClick={ () => {
+                            this.setState({ openedInMobileMode: false });
+                        } }
+                    />
+                ) }
+            >
+                { this.renderInput(cn, Input) }
+                <Menu
+                    mode='radio-check'
+                    content={ this.formatOptionsList(this.props.options) }
+                />
+            </Popup>
+        );
     }
 
     @autobind
@@ -378,6 +415,19 @@ class InputAutocomplete extends React.Component {
 
         if (this.props.onKeyDown) {
             this.props.onKeyDown(event);
+        }
+    }
+
+    @autobind
+    handleInputClick(event) {
+        console.log('click');
+        const { onClick, mobileMode } = this.props;
+        if (onClick) {
+            onClick(event);
+        }
+
+        if (mobileMode) {
+            this.setState({ openedInMobileMode: true });
         }
     }
 
