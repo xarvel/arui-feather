@@ -1,5 +1,15 @@
 ```jsx
 const IconAdd = require('./action/add').default;
+const IconDislike = require('./action/dislike').default;
+<div>
+  <IconAdd size='m' view={ 'inline' }/>
+  <IconAdd size='m' view={ 'img' }/>
+  <IconDislike size='m' view={ 'inline' } colored={ true }/>
+</div>
+```
+
+```jsx
+const IconAdd = require('./action/add').default;
 const IconAttachment = require('./action/attachment').default;
 const IconBack = require('./action/back').default;
 const IconCall = require('./action/call').default;

@@ -26,11 +26,14 @@ class Icon extends React.Component {
         /** Размер иконки */
         size: Type.oneOf(['xs', 's', 'm', 'l', 'xl', 'xxl']),
         /** Тема компонента */
-        theme: Type.oneOf(['alfa-on-color', 'alfa-on-white'])
+        theme: Type.oneOf(['alfa-on-color', 'alfa-on-white']),
+        /** Управление выводом */
+        view: Type.oneOf(['background', 'img', 'inline'])
     };
 
     static defaultProps = {
-        size: 'm'
+        size: 'm',
+        view: 'background'
     };
 
     render(cn) {
