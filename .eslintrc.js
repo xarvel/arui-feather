@@ -1,9 +1,12 @@
 module.exports = {
-    extends: require.resolve('arui-presets/eslint'),
+    extends: [
+        require.resolve('arui-presets-lint/eslint'),
+        require.resolve('arui-presets-ts/eslint')
+    ],
 
     overrides: [
         {
-            files: ['src/**/*.test.{js,jsx}', 'src/**/__mocks__/*.{js,jsx}'],
+            files: ['src/**/*.test.{js,jsx,tsx,ts}', 'src/**/__mocks__/*.{js,jsx}'],
             globals: {
                 jest: true,
                 beforeAll: true,
@@ -22,10 +25,9 @@ module.exports = {
     // explanation of the reason
     rules: {
         // List of file extensions with jsx support
-        'react/jsx-filename-extension': [2, { extensions: ['gemini.js', '.jsx'] }],
+        'react/jsx-filename-extension': [2, { extensions: ['gemini.js', '.jsx', '.tsx'] }],
 
-        // Setting the max length of the code
-        'max-len': ['error', 120],
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.test.tsx", "**/*.test.jsx", "gulpfile.js"]}],
 
         // The validation of jsdoc was disabled due to an unnecessary
         // restriction of writing comments that scares off write developers to
@@ -38,9 +40,6 @@ module.exports = {
         'sort-class-members/sort-class-members': 'off',
 
         // Destructuring is a syntactic possibility, not a necessity
-        'prefer-destructuring': 'off',
-
-        // Default exports are evil 👿
-        'import/prefer-default-export': 'off'
+        'prefer-destructuring': 'off'
     }
 };

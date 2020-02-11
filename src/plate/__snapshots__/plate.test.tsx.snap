@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`plate should render icon when it propperty is setted 1`] = `
+<div
+  className="plate plate_has-closer plate_has-icon plate_type_success"
+  onClick={[Function]}
+  onKeyDown={[Function]}
+>
+  <span
+    className="plate__icon"
+  >
+    <ForwardRef(ThemedComponent(IconOk))
+      colored={true}
+    />
+  </span>
+  <div
+    className="plate__title"
+  >
+    <span
+      onClick={[Function]}
+      onKeyUp={[Function]}
+    >
+      Успешный
+    </span>
+  </div>
+  <div
+    className="plate__content"
+  >
+    <ForwardRef(ThemedComponent(IconButton))
+      className="plate__closer"
+      onClick={[Function]}
+    >
+      <ForwardRef(ThemedComponent(IconClose)) />
+    </ForwardRef(ThemedComponent(IconButton))>
+  </div>
+</div>
+`;
+
+exports[`plate should render without problems 1`] = `
+<div
+  className="plate plate_type_default"
+  onClick={[Function]}
+  onKeyDown={[Function]}
+>
+  <div
+    className="plate__content"
+  >
+    plate-text
+  </div>
+</div>
+`;

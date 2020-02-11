@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`popup-container-provider should render without problems 1`] = `
+<div
+  className="popup-container"
+>
+  <div>
+    Render-test
+  </div>
+  <IsolatedContainer />
+</div>
+`;

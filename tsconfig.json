@@ -1,0 +1,10 @@
+{
+  "extends": "arui-presets-ts/tsconfig",
+  "compilerOptions": {
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "experimentalDecorators": true,
+      "strict": false
+  },
+  "include": ["src/**/*.tsx", "src/**/*.ts"]
+}

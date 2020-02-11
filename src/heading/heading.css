@@ -1,6 +1,7 @@
 @import '../vars.css';
 
 .heading {
+    margin: 0;
     font-family: var(--font);
     font-weight: var(--font-weight-bold);
 
@@ -9,7 +10,6 @@
     }
 
     &_size_xl {
-        margin: 0 0 var(--gap-xl);
         font-size: var(--font-size-2xl);
         line-height: var(--line-height-condensed);
 
@@ -17,29 +17,38 @@
             font-size: var(--font-size-3xl);
         }
 
-        @media (--large) {
+        @media (--desktop) {
             font-size: var(--font-size-4xl);
             line-height: var(--line-height-extra-condensed);
         }
     }
 
+    &_margins_xl {
+        margin: 0 0 var(--gap-xl);
+    }
+
     &_size_l {
-        margin: var(--gap-3xl) 0 var(--gap-m);
         font-size: var(--font-size-xl);
         line-height: var(--line-height-condensed);
 
         @media (--tablet-s) {
-            margin: var(--gap-4xl) 0 var(--gap-xl);
             font-size: var(--font-size-2xl);
         }
 
-        @media (--large) {
+        @media (--desktop) {
             font-size: var(--font-size-3xl);
         }
     }
 
-    &_size_m {
+    &_margins_l {
         margin: var(--gap-3xl) 0 var(--gap-m);
+
+        @media (--tablet-s) {
+            margin: var(--gap-4xl) 0 var(--gap-xl);
+        }
+    }
+
+    &_size_m {
         font-size: var(--font-size-l);
         line-height: var(--line-height-semi-condensed);
 
@@ -48,14 +57,20 @@
             line-height: var(--line-height-condensed);
         }
 
-        @media (--large) {
-            margin: var(--gap-4xl) 0 var(--gap-xl);
+        @media (--desktop) {
             font-size: var(--font-size-2xl);
         }
     }
 
-    &_size_s {
+    &_margins_m {
         margin: var(--gap-3xl) 0 var(--gap-m);
+
+        @media (--desktop) {
+            margin: var(--gap-4xl) 0 var(--gap-xl);
+        }
+    }
+
+    &_size_s {
         font-size: var(--font-size-l);
         line-height: var(--line-height-semi-condensed);
 
@@ -65,10 +80,17 @@
         }
     }
 
-    &_size_xs {
+    &_margins_s {
         margin: var(--gap-3xl) 0 var(--gap-m);
+    }
+
+    &_size_xs {
         font-size: var(--font-size-l);
         line-height: var(--line-height-semi-condensed);
+    }
+
+    &_margins_xs {
+        margin: var(--gap-3xl) 0 var(--gap-m);
     }
 
     & + & {

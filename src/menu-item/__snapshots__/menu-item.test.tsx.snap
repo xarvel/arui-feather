@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`menu-item should render without problem 1`] = `
+<div
+  className="menu-item menu-item_type_link"
+>
+  <ForwardRef(ThemedComponent(Link))
+    className="menu-item__control menu-item__link"
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+    pseudo={false}
+    text={false}
+  >
+    MenuItem
+  </ForwardRef(ThemedComponent(Link))>
+</div>
+`;

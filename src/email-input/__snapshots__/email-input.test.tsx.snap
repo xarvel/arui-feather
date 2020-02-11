@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`email-input should render without problems 1`] = `
+<ForwardRef(ThemedComponent(Input))
+  className="email-input"
+  formNoValidate={true}
+  type="email"
+/>
+`;

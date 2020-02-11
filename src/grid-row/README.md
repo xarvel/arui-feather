@@ -1,10 +1,13 @@
 ### Установка горизонтального отступа
 
 ```jsx
+import GridCol from 'arui-feather/grid-col';
+
 const style = {
     height: 30,
     background: '#ff5c5c'
 };
+
 <GridRow gutter={ { mobile: 0, tablet: 16, desktop: { m: 24 } } }>
     <GridCol>
         <div style={ style } />
@@ -23,6 +26,8 @@ const style = {
 По вертикали
 
 ```jsx
+import GridCol from 'arui-feather/grid-col';
+
 const style = {
     height: 30,
     background: '#ff5c5c'
@@ -33,6 +38,7 @@ const styleLastDiv = {
     padding: 0,
     marginBottom: 10
 };
+
 <div>
     <div style={ { background: '#f3f4f5', marginBottom: 10 } }>
         <GridRow align='top'>
@@ -82,11 +88,14 @@ const styleLastDiv = {
 По горизонтали
 
 ```jsx
+import GridCol from 'arui-feather/grid-col';
+
 const style = {
     height: 30,
     background: '#ff5c5c',
     marginBottom: 10
 };
+
 <div>
     <GridRow justify='left'>
         <GridCol width='4'>

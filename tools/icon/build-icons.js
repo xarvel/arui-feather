@@ -34,9 +34,9 @@ class Icon {
         this.fileName = getFilename(iconPath, mapping);
         this.path = iconPath;
         this.categoryPath = `./src/icon/${this.getCategory()}/${this.getName()}/`;
-        this.indexFile = `${this.categoryPath}index.js`;
+        this.indexFile = `${this.categoryPath}index.ts`;
         this.cssFile = `${this.categoryPath}${this.getName()}.css`;
-        this.jsxFile = `${this.categoryPath}${this.getName()}.jsx`;
+        this.tsxFile = `${this.categoryPath}${this.getName()}.tsx`;
         this.name = this.getName();
         this.category = this.getCategory();
         this.componentName = `Icon${uppercamelcase(this.getName())}`;
@@ -130,11 +130,11 @@ const clean = new Promise((resolve) => {
     resolve();
 });
 
-// Create icon-test.jsx
+// Create icon-test.tsx
 const createTests = arr =>
     new Promise((resolve) => {
         const shortIcons = removeDublicates(arr);
-        fs.writeFileSync('./src/icon/icon.test.jsx', getTemplate('icon.test.jsx', shortIcons));
+        fs.writeFileSync('./src/icon/icon.test.tsx', getTemplate('icon.test.tsx', shortIcons));
         resolve();
     });
 
@@ -152,11 +152,11 @@ const createComponents = arr =>
             // Copy .svg
             fs.copyFileSync(item.path, `${item.categoryPath}${item.fileName}`);
 
-            // Create index.js
-            fs.writeFileSync(item.indexFile, getTemplate('index.js', item));
+            // Create index.ts
+            fs.writeFileSync(item.indexFile, getTemplate('index.ts', item));
 
-            // Create .jsx
-            fs.writeFileSync(item.jsxFile, getTemplate('icon.jsx', item));
+            // Create .tsx
+            fs.writeFileSync(item.tsxFile, getTemplate('icon.tsx', item));
 
             // Create .css & add copyright
             if (!fs.existsSync(item.cssFile)) fs.writeFileSync(item.cssFile, COPYRIGHT);
@@ -168,7 +168,7 @@ const createComponents = arr =>
     });
 
 // Main process. Clean icons, create documentaion, folder structure,
-// copy svgs, create index.js, .jsx and css files for component.
+// copy svgs, create index.ts, .tsx and css files for component.
 
 const allIcons = [...icons, ...additionalIcons];
 Promise.all([clean, createTests(allIcons), createFolders(allIcons), createComponents(allIcons)])

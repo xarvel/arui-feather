@@ -22,14 +22,17 @@ const socialNetworks = [
     { value: 'mixi' },
     { value: 'XING' }
 ];
+
 function getFilteredOptions(list, typedValue) {
     if (!typedValue) {
         return list;
     }
 
-    const typedValueLCase = typedValue.toLowerCase();
+    // преобразуем строку ( 'Москва' -> '.*м.*о.*с.*к.*в.*а.*') для полнотекстового поиска, так как
+    // '.*' означает любое количество любых символов
+    const regex = new RegExp(typedValue.toLowerCase().replace(/(?!$)|(?=$)/gm, '.*'));
 
-    return list.filter(({ value }) => value.toLowerCase().includes(typedValueLCase));
+    return list.filter(({ value }) => regex.test(value.toLowerCase()));
 }
 function handleItemSelect(item) {
     setState({ value: item.text })
@@ -52,6 +55,8 @@ function handleChange(value) {
 
 Элементы с кастомной разметкой
 ```jsx
+import Label from 'arui-feather/label';
+
 function Circle({ background }) {
     const circleStyles = {
         width: '14px',
@@ -66,6 +71,7 @@ function Circle({ background }) {
         marginRight: '10px',
         marginLeft: '-20px'
     };
+
     return (
         <span style={ circleStyles } />
     )
@@ -102,6 +108,7 @@ const socialNetworks = [
             </Label>
     }
 ];
+
 function getFilteredOptions(list, typedValue) {
     if (!typedValue) {
         return list;
@@ -131,6 +138,7 @@ function handleChange(value) {
 
 Автокомплит с автозакрытием после выбора
 ```jsx
+import TagButton from 'arui-feather/tag-button';
 
 const socialNetworks = [
     { value: 'Facebook' },
@@ -154,11 +162,11 @@ const socialNetworks = [
     { value: 'mixi' },
     { value: 'XING' }
 ];
+
 function getFilteredOptions(list, typedValue) {
     if (!typedValue) {
         return list;
     }
-
 
     const typedValueLCase = typedValue.toLowerCase();
 
@@ -166,7 +174,8 @@ function getFilteredOptions(list, typedValue) {
 }
 
 function handleItemSelect(item) {
-    let values = state.values || [];
+    const values = state.values || [];
+
     if (!values.includes(item.value)) {
         setState({ values: values.concat([item.value]) });
     }

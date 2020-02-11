@@ -1,7 +1,10 @@
 ```jsx
+import Button from 'arui-feather/button';
+
 const layoutStyle = {
     paddingRight: '10px'
 };
+
 <div>
     <div className='row'>
         {
